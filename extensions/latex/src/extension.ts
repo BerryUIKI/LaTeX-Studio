@@ -7,6 +7,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { ActionsProvider } from './actionsProvider.ts';
+import { BibIndexer } from './bibIndexer.ts';
+import { CitationCompletionProvider } from './citationCompletion.ts';
+import { CitationHoverProvider } from './citationHover.ts';
 import { LaTeXCleaner } from './cleaner.ts';
 import { LaTeXCompiler } from './compiler.ts';
 import { TeXDetector } from './detector.ts';
@@ -270,6 +273,25 @@ export function activate(context: vscode.ExtensionContext) {
 		new MathHoverProvider()
 	);
 
+	// Initialize Bibliography Indexer
+	const bibIndexer = BibIndexer.getInstance();
+	bibIndexer.initialize(context);
+
+	// Register Citation Completion Provider
+	const citationCompletion = vscode.languages.registerCompletionItemProvider(
+		[{ language: 'latex' }, { language: 'tex' }],
+		new CitationCompletionProvider(),
+		'{',
+		',',
+		' '
+	);
+
+	// Register Citation Hover Provider
+	const citationHover = vscode.languages.registerHoverProvider(
+		[{ language: 'latex' }, { language: 'tex' }],
+		new CitationHoverProvider()
+	);
+
 	context.subscriptions.push(
 		compiler,
 		logParser,
@@ -287,7 +309,9 @@ export function activate(context: vscode.ExtensionContext) {
 		insertSnippetCmd,
 		jumpToLineCmd,
 		newProjectCmd,
-		hoverProvider
+		hoverProvider,
+		citationCompletion,
+		citationHover
 	);
 
 	updateStatusBar();

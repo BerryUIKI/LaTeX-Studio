@@ -267,6 +267,16 @@
           "type": "boolean",
           "default": true,
           "description": "Enable live KaTeX formula preview tooltip when hovering over mathematical expressions."
+        },
+        "latex-studio.citation.autocomplete.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable intelligent citation key autocompletion for \\cite commands."
+        },
+        "latex-studio.citation.hover.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable rich bibliographic reference card previews when hovering over citation keys."
         }
       }
     },
