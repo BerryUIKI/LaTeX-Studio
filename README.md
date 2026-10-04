@@ -1,27 +1,33 @@
 # LaTeX Studio
 
-> **LaTeX Studio** 是一套基于现代现代化工作台架构的专用 LaTeX 桌面 IDE / 学术写作工作站，致力于为学术研究、论文写作、科技文献排版提供开箱即用、极致流畅的开发与排版体验。
+> **LaTeX Studio** is an open-source, high-performance desktop IDE and academic writing workstation designed for researchers, scientists, students, and engineers. It delivers an out-of-the-box, frictionless environment for LaTeX authoring, compiling, and PDF synchronization.
 
 ---
 
-## 🎯 核心目标与特性 (Core Features)
+## 🎯 Key Features
 
-- ⚡ **开箱即用编译链**：智能检测 TeX Live / MiKTeX / MacTeX / TinyTeX，预设 XeLaTeX, pdfLaTeX, LuaLaTeX, latexmk 编译流。
-- 📖 **原生内置 PDF 预览 & SyncTeX**：无缝分屏阅读，支持正向（代码 -> PDF）与反向（PDF -> 代码）精确定位跳转。
-- 📐 **可视化数学与符号面板**：希腊字母、数学算子、环境模版可视拾取，公式实时渲染悬停预览。
-- 📚 **学术大纲与 BibTeX 管理**：文档章节结构大纲树一键直达，参考文献引用智能联想。
-- 🎨 **学术模板中心**：内置 IEEE, ACM, 硕博/本科毕业论文, Beamer 幻灯片等一键起步模板。
-- 🤖 **AI 学术助手**：集成学术润色、降重、公式生成与 LaTeX 编译报错一键修复。
+- ⚡ **Zero-Configuration Toolchain**: Auto-detects TeX Live, MiKTeX, MacTeX, and TinyTeX. Pre-configures XeLaTeX, pdfLaTeX, LuaLaTeX, and latexmk build recipes.
+- 📖 **Embedded PDF Viewer & SyncTeX**: Side-by-side preview with sub-second bi-directional synchronization (source code $\leftrightarrow$ PDF).
+- 📐 **Visual Math Symbol Palette**: One-click insertion for Greek alphabets, mathematical operators, relations, arrows, and calculus notation.
+- 📚 **Real-Time Document Outline**: Dynamic structure tree tracking `\part` through `\paragraph` with instant navigation.
+- 🎨 **Academic Template Center**: Instant project scaffolding for IEEE, ACM, graduation theses, and Beamer presentations.
+- 🛠️ **Smart Error Diagnostics**: Parses raw TeX logs and surfaces errors and BadBox warnings directly in the Problems panel.
 
 ---
 
-## 🛠️ 仓库架构与分支规范 (GitFlow)
+## 🗺️ Project Milestones & Roadmap
 
-本项目严格采用 **GitFlow** 工作流与微步提交规范：
-- `main`：生产/正式发布分支，保持代码高可用。
-- `develop`：主集成开发分支。
-- `feature/*`：功能特性分支，小步 PR 合入 `develop`。
-- `release/*` 与 `hotfix/*`：版本发布与紧急修复分支。
+For our comprehensive engineering roadmap, release plans, and milestone progress, see [ROADMAP.md](ROADMAP.md).
+
+---
+
+## 🛠️ Branching Strategy (GitFlow)
+
+This repository follows standard **GitFlow** and **Semantic Versioning**:
+- **`main`**: Production and stable release branch.
+- **`develop`**: Primary integration branch for active development.
+- **`feature/*`**: Dedicated feature branches merged into `develop` via Pull Requests.
+- **`release/*`** & **`hotfix/*`**: Release stabilization and emergency patch branches.
 
 
 ## Contributing

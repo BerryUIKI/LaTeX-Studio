@@ -1,8 +1,8 @@
-### 📖 原生内置 PDF 预览与 SyncTeX 双向联动
+### 📖 Embedded PDF Preview & SyncTeX Dual Navigation
 
-告别繁琐的第三方阅读器配置：
-- **实时刷新**：编译成功后自动无闪烁刷新 PDF 视图
-- **正向跳转**：代码区按下 **`Ctrl+Alt+J`**，PDF 自动平滑滚动并聚焦
-- **反向跳转**：在 PDF 预览区按住 `Ctrl+点击` 任意文字即可跳回代码对应行
+No external viewer setup required:
+- **Auto-Refresh**: Live, seamless PDF reload upon successful compilation.
+- **Forward Sync**: Press **`Ctrl+Alt+J`** in code to scroll and highlight the matching PDF page.
+- **Inverse Sync**: `Ctrl+Click` anywhere in the PDF preview to jump directly back to the source code line.
 
-[🔍 启动 PDF 预览](command:latex-studio.viewPdf)
+[🔍 Open PDF Preview](command:latex-studio.viewPdf)

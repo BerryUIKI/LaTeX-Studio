@@ -1,7 +1,7 @@
-### ⚡ 极速构建与智能错误诊断
+### ⚡ Rapid Build & Smart Diagnostics
 
-- 快捷键：**`Ctrl+B`**（macOS: `Cmd+B`）一键编译
-- 引擎支持：XeLaTeX、pdfLaTeX、LuaLaTeX、latexmk
-- 智能诊断：LaTeX 语法报错与盒子溢出警告实时标红并高亮在 **Problems（问题）** 面板中，双击直接跳转！
+- Hotkey: **`Ctrl+B`** (macOS: `Cmd+B`) for one-click compilation.
+- Multiple Engine Recipes: XeLaTeX, pdfLaTeX, LuaLaTeX, and latexmk.
+- Smart Diagnostics: Raw TeX compiler errors and Overfull/Underfull BadBoxes are highlighted directly in the **Problems** panel.
 
-[▶️ 编译当前文档](command:latex-studio.build)
+[▶️ Compile Current Document](command:latex-studio.build)
