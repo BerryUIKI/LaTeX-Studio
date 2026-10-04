@@ -182,6 +182,14 @@
         "command": "latex-studio.cancelBuild",
         "title": "LaTeX Studio: Cancel Current Build",
         "icon": "$(stop)"
+      },
+      {
+        "command": "latex-studio.insertSnippet",
+        "title": "LaTeX Studio: Insert Math Symbol"
+      },
+      {
+        "command": "latex-studio.jumpToLine",
+        "title": "LaTeX Studio: Jump to Document Line"
       }
     ],
     "menus": {
@@ -251,6 +259,31 @@
           "description": "Default LaTeX compiler recipe (e.g. xelatex, pdflatex, latexmk)."
         }
       }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "latex-studio-sidebar",
+          "title": "LaTeX Studio",
+          "icon": "$(book)"
+        }
+      ]
+    },
+    "views": {
+      "latex-studio-sidebar": [
+        {
+          "id": "latex-studio.actions",
+          "name": "Quick Actions (快捷操作)"
+        },
+        {
+          "id": "latex-studio.outline",
+          "name": "Document Outline (文档大纲)"
+        },
+        {
+          "id": "latex-studio.symbols",
+          "name": "Math Symbols Palette (数学符号拾取器)"
+        }
+      ]
     }
   },
   "repository": {

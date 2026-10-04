@@ -6,18 +6,30 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
+import { ActionsProvider } from './actionsProvider.ts';
 import { LaTeXCleaner } from './cleaner.ts';
 import { LaTeXCompiler } from './compiler.ts';
 import { TeXDetector } from './detector.ts';
 import { LaTeXLogParser } from './logParser.ts';
+import { OutlineProvider } from './outlineProvider.ts';
 import { PDFViewerManager } from './pdfViewer.ts';
 import { DEFAULT_RECIPES } from './recipes.ts';
+import { SymbolsProvider } from './symbolsProvider.ts';
 import { SyncTeXManager } from './synctex.ts';
 
 export function activate(context: vscode.ExtensionContext) {
 	const compiler = new LaTeXCompiler();
 	const logParser = new LaTeXLogParser();
 	const pdfViewer = PDFViewerManager.getInstance();
+
+	// Tree View Providers
+	const actionsProvider = new ActionsProvider();
+	const outlineProvider = new OutlineProvider();
+	const symbolsProvider = new SymbolsProvider();
+
+	vscode.window.registerTreeDataProvider('latex-studio.actions', actionsProvider);
+	vscode.window.registerTreeDataProvider('latex-studio.outline', outlineProvider);
+	vscode.window.registerTreeDataProvider('latex-studio.symbols', symbolsProvider);
 
 	// Status Bar: Recipe Selector
 	const recipeStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
@@ -61,7 +73,26 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	// Update on active editor change
-	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(() => updateStatusBar()));
+	context.subscriptions.push(
+		vscode.window.onDidChangeActiveTextEditor(() => {
+			updateStatusBar();
+			outlineProvider.refresh();
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.workspace.onDidSaveTextDocument((doc) => {
+			if (doc.languageId === 'latex' || doc.languageId === 'tex') {
+				outlineProvider.refresh();
+				const config = vscode.workspace.getConfiguration('latex-studio');
+				const autoBuild = config.get<string>('build.autoBuild', 'onSave');
+				if (autoBuild === 'onSave' && !compiler.building) {
+					compiler.build(doc.uri);
+				}
+			}
+		})
+	);
+
 	context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(() => updateStatusBar()));
 
 	// Compiler event hooks
@@ -208,14 +239,21 @@ export function activate(context: vscode.ExtensionContext) {
 		);
 	});
 
-	// Auto-build on save
-	const onSaveListener = vscode.workspace.onDidSaveTextDocument((doc) => {
-		if (doc.languageId === 'latex' || doc.languageId === 'tex') {
-			const config = vscode.workspace.getConfiguration('latex-studio');
-			const autoBuild = config.get<string>('build.autoBuild', 'onSave');
-			if (autoBuild === 'onSave' && !compiler.building) {
-				compiler.build(doc.uri);
-			}
+	// Register Command: Insert Snippet (Used by Symbol Palette)
+	const insertSnippetCmd = vscode.commands.registerCommand('latex-studio.insertSnippet', (snippet: string) => {
+		const editor = vscode.window.activeTextEditor;
+		if (editor) {
+			editor.insertSnippet(new vscode.SnippetString(snippet));
+		}
+	});
+
+	// Register Command: Jump to Line (Used by Outline)
+	const jumpToLineCmd = vscode.commands.registerCommand('latex-studio.jumpToLine', (line: number) => {
+		const editor = vscode.window.activeTextEditor;
+		if (editor) {
+			const pos = new vscode.Position(line, 0);
+			editor.selection = new vscode.Selection(pos, pos);
+			editor.revealRange(new vscode.Range(pos, pos), vscode.TextEditorRevealType.InCenter);
 		}
 	});
 
@@ -233,7 +271,8 @@ export function activate(context: vscode.ExtensionContext) {
 		synctexCmd,
 		selectRecipeCmd,
 		checkEnvCmd,
-		onSaveListener
+		insertSnippetCmd,
+		jumpToLineCmd
 	);
 
 	updateStatusBar();
