@@ -190,6 +190,11 @@
       {
         "command": "latex-studio.jumpToLine",
         "title": "LaTeX Studio: Jump to Document Line"
+      },
+      {
+        "command": "latex-studio.newProject",
+        "title": "LaTeX Studio: New Project from Template",
+        "icon": "$(repo-create)"
       }
     ],
     "menus": {

@@ -14,6 +14,12 @@ interface ActionItem {
 
 const ACTION_ITEMS: ActionItem[] = [
 	{
+		label: 'New Project from Template',
+		description: '从学术模板新建项目 (IEEE / 毕业论文 / Beamer)',
+		icon: 'repo-create',
+		command: 'latex-studio.newProject'
+	},
+	{
 		label: 'Build Document',
 		description: '一键编译当前文档 (Ctrl+B)',
 		icon: 'play',

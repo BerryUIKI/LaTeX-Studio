@@ -16,6 +16,7 @@ import { PDFViewerManager } from './pdfViewer.ts';
 import { DEFAULT_RECIPES } from './recipes.ts';
 import { SymbolsProvider } from './symbolsProvider.ts';
 import { SyncTeXManager } from './synctex.ts';
+import { TemplateWizard } from './templates.ts';
 
 export function activate(context: vscode.ExtensionContext) {
 	const compiler = new LaTeXCompiler();
@@ -257,6 +258,11 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
+	// Register Command: New Project from Template
+	const newProjectCmd = vscode.commands.registerCommand('latex-studio.newProject', async () => {
+		await TemplateWizard.createProject();
+	});
+
 	context.subscriptions.push(
 		compiler,
 		logParser,
@@ -272,7 +278,8 @@ export function activate(context: vscode.ExtensionContext) {
 		selectRecipeCmd,
 		checkEnvCmd,
 		insertSnippetCmd,
-		jumpToLineCmd
+		jumpToLineCmd,
+		newProjectCmd
 	);
 
 	updateStatusBar();
