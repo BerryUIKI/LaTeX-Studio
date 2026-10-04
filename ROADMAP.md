@@ -114,12 +114,11 @@ Traditional LaTeX workflows require complex manual toolchain configuration, cumb
 ---
 
 ### Milestone 7: Bibliography & Citation Intelligence (v0.7.0)
-*Status: Planned*
-- [ ] Implement workspace-wide `.bib` file indexer.
-- [ ] Auto-complete citation keys in `\cite{...}`, `\citep{...}`, `\citet{...}` with live author, title, and year preview.
-- [ ] Hover tooltips on citation keys displaying formatted bibliographic reference cards.
-- [ ] Diagnostics for broken citations (`LaTeX Warning: Citation 'xxx' undefined`) with auto-completion suggestions.
-- [ ] Quick-action to import BibTeX entries from DOI, arXiv ID, or CrossRef URL.
+*Status: Completed (PR #13)*
+- [x] Implement `BibIndexer` with background file watcher to parse and index workspace `.bib` database files.
+- [x] Implement `CitationCompletionProvider` with fuzzy search across citation keys, authors, titles, and publication years for `\cite{...}` commands.
+- [x] Implement `CitationHoverProvider` displaying rich formatted bibliographic reference cards and missing citation warnings.
+- [x] Provide user configuration settings: `latex-studio.citation.autocomplete.enabled` and `latex-studio.citation.hover.enabled`.
 
 ---
 
@@ -181,7 +180,7 @@ Every commit must follow [Conventional Commits](https://www.conventionalcommits.
 | **v0.4.0** | Activity Bar Sidebar, Symbol Palette & Outline | ✅ Complete | [PR #9](https://github.com/BerryUIKI/LaTeX-Studio/pull/9) |
 | **v0.5.0** | Project Template Wizard & Getting Started Guide | ✅ Complete | [PR #10](https://github.com/BerryUIKI/LaTeX-Studio/pull/10) |
 | **v0.6.0** | Math Live Hover Rendering & Formula Preview | ✅ Complete | [PR #12](https://github.com/BerryUIKI/LaTeX-Studio/pull/12) |
-| **v0.7.0** | Bibliography Management & Citation Intelligence | 🟡 Planned | Next Priority |
-| **v0.8.0** | AI Academic Writing Assistant & Error Resolver | ⚪ Planned | Q2 2026 |
+| **v0.7.0** | Bibliography Management & Citation Intelligence | ✅ Complete | [PR #13](https://github.com/BerryUIKI/LaTeX-Studio/pull/13) |
+| **v0.8.0** | AI Academic Writing Assistant & Error Resolver | 🟡 Planned | Next Priority |
 | **v0.9.0** | Overleaf Sync & Cloud Compilation Service | ⚪ Planned | Q3 2026 |
 | **v1.0.0** | Production Packaging, Installers & Distribution | ⚪ Planned | Q3 2026 |
