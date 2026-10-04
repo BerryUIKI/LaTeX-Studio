@@ -11,6 +11,11 @@
   "scripts": {
     "update-grammar": "node ./build/update-grammars.js"
   },
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:latex",
+    "onLanguage:tex"
+  ],
   "categories": ["Programming Languages"],
   "contributes": {
     "languages": [
@@ -140,6 +145,79 @@
       },
       "[bibtex]": {
         "editor.wordWrap": "off"
+      }
+    },
+    "commands": [
+      {
+        "command": "latex-studio.build",
+        "title": "LaTeX Studio: Build LaTeX Document",
+        "icon": "$(play)"
+      },
+      {
+        "command": "latex-studio.clean",
+        "title": "LaTeX Studio: Clean Auxiliary Files",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "latex-studio.selectRecipe",
+        "title": "LaTeX Studio: Select Compiler Recipe",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "latex-studio.checkEnvironment",
+        "title": "LaTeX Studio: Check TeX Environment",
+        "icon": "$(check)"
+      },
+      {
+        "command": "latex-studio.cancelBuild",
+        "title": "LaTeX Studio: Cancel Current Build",
+        "icon": "$(stop)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "latex-studio.build",
+          "when": "resourceExtname == .tex || resourceExtname == .ltx",
+          "group": "navigation@1"
+        },
+        {
+          "command": "latex-studio.clean",
+          "when": "resourceExtname == .tex || resourceExtname == .ltx",
+          "group": "navigation@2"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "latex-studio.build",
+        "key": "ctrl+b",
+        "mac": "cmd+b",
+        "when": "editorLangId == latex || editorLangId == tex"
+      },
+      {
+        "command": "latex-studio.clean",
+        "key": "ctrl+alt+c",
+        "when": "editorLangId == latex || editorLangId == tex"
+      }
+    ],
+    "configuration": {
+      "title": "LaTeX Studio",
+      "properties": {
+        "latex-studio.build.autoBuild": {
+          "type": "string",
+          "enum": [
+            "never",
+            "onSave"
+          ],
+          "default": "onSave",
+          "description": "Automatically trigger LaTeX compilation when saving a document."
+        },
+        "latex-studio.build.recipe": {
+          "type": "string",
+          "default": "xelatex",
+          "description": "Default LaTeX compiler recipe (e.g. xelatex, pdflatex, latexmk)."
+        }
       }
     }
   },
