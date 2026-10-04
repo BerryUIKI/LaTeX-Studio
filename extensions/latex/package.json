@@ -149,6 +149,16 @@
     },
     "commands": [
       {
+        "command": "latex-studio.viewPdf",
+        "title": "LaTeX Studio: View PDF Preview",
+        "icon": "$(file-pdf)"
+      },
+      {
+        "command": "latex-studio.synctex",
+        "title": "LaTeX Studio: SyncTeX Forward Search",
+        "icon": "$(arrow-right)"
+      },
+      {
         "command": "latex-studio.build",
         "title": "LaTeX Studio: Build LaTeX Document",
         "icon": "$(play)"
@@ -177,18 +187,35 @@
     "menus": {
       "editor/title": [
         {
-          "command": "latex-studio.build",
+          "command": "latex-studio.viewPdf",
           "when": "resourceExtname == .tex || resourceExtname == .ltx",
           "group": "navigation@1"
         },
         {
-          "command": "latex-studio.clean",
+          "command": "latex-studio.build",
           "when": "resourceExtname == .tex || resourceExtname == .ltx",
           "group": "navigation@2"
+        },
+        {
+          "command": "latex-studio.clean",
+          "when": "resourceExtname == .tex || resourceExtname == .ltx",
+          "group": "navigation@3"
         }
       ]
     },
     "keybindings": [
+      {
+        "command": "latex-studio.viewPdf",
+        "key": "ctrl+alt+v",
+        "mac": "cmd+alt+v",
+        "when": "editorLangId == latex || editorLangId == tex"
+      },
+      {
+        "command": "latex-studio.synctex",
+        "key": "ctrl+alt+j",
+        "mac": "cmd+alt+j",
+        "when": "editorLangId == latex || editorLangId == tex"
+      },
       {
         "command": "latex-studio.build",
         "key": "ctrl+b",
@@ -204,6 +231,11 @@
     "configuration": {
       "title": "LaTeX Studio",
       "properties": {
+        "latex-studio.view.autoOpenPdf": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically open or refresh the PDF preview when build succeeds."
+        },
         "latex-studio.build.autoBuild": {
           "type": "string",
           "enum": [
