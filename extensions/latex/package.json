@@ -293,37 +293,37 @@
     "walkthroughs": [
       {
         "id": "latexStudio.welcome",
-        "title": "LaTeX Studio 新手指南",
-        "description": "探索 LaTeX Studio 的核心功能与学术排版工作流",
+        "title": "Getting Started with LaTeX Studio",
+        "description": "Discover core features, compilation recipes, and academic workflows",
         "steps": [
           {
             "id": "checkEnv",
-            "title": "检查 TeX 环境",
-            "description": "自动检测系统中的 TeX Live / MiKTeX / TinyTeX 发行版。\n[检测环境](command:latex-studio.checkEnvironment)",
+            "title": "Check TeX Environment",
+            "description": "Automatically detect TeX Live, MiKTeX, and TinyTeX installations.\n[Check Environment](command:latex-studio.checkEnvironment)",
             "media": {
               "markdown": "media/walkthrough-env.md"
             }
           },
           {
             "id": "newProject",
-            "title": "从学术模板快速起步",
-            "description": "一键初始化 IEEE、中文毕业论文或 Beamer 演示文稿。\n[新建模板项目](command:latex-studio.newProject)",
+            "title": "Start from Academic Template",
+            "description": "Instantly scaffold IEEE, Chinese Thesis, or Beamer presentation projects.\n[New Project from Template](command:latex-studio.newProject)",
             "media": {
               "markdown": "media/walkthrough-template.md"
             }
           },
           {
             "id": "buildDoc",
-            "title": "一键编译与错误定位",
-            "description": "使用快捷键 Ctrl+B 一键编译，日志错误自动高亮到 Problems 面板。\n[编译文档](command:latex-studio.build)",
+            "title": "Build & Smart Diagnostics",
+            "description": "Use Ctrl+B to compile. Syntax errors and BadBoxes are surfaced in the Problems panel.\n[Build Document](command:latex-studio.build)",
             "media": {
               "markdown": "media/walkthrough-build.md"
             }
           },
           {
             "id": "viewPdf",
-            "title": "实时分屏预览与 SyncTeX 双向跳转",
-            "description": "分屏打开内置 PDF 阅读器，使用 Ctrl+Alt+J 快捷进行正向跳转。\n[打开预览](command:latex-studio.viewPdf)",
+            "title": "Live PDF Preview & SyncTeX",
+            "description": "Embedded side-by-side PDF preview with forward & inverse SyncTeX navigation.\n[Open Preview](command:latex-studio.viewPdf)",
             "media": {
               "markdown": "media/walkthrough-pdf.md"
             }
