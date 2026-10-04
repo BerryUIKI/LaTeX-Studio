@@ -1,22 +1,28 @@
-# Visual Studio Code - Open Source ("Code - OSS")
-[![Feature Requests](https://img.shields.io/github/issues/microsoft/vscode/feature-request.svg)](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-[![Bugs](https://img.shields.io/github/issues/microsoft/vscode/bug.svg)](https://github.com/microsoft/vscode/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
+# LaTeX Studio
 
-## The Repository
+> **LaTeX Studio** 是一套基于现代现代化工作台架构的专用 LaTeX 桌面 IDE / 学术写作工作站，致力于为学术研究、论文写作、科技文献排版提供开箱即用、极致流畅的开发与排版体验。
 
-This repository ("`Code - OSS`") is where we (Microsoft) develop the [Visual Studio Code](https://code.visualstudio.com) product together with the community. Not only do we work on code and issues here, but we also publish our [roadmap](https://github.com/microsoft/vscode/wiki/Roadmap), [monthly iteration plans](https://github.com/microsoft/vscode/wiki/Iteration-Plans), and our [endgame plans](https://github.com/microsoft/vscode/wiki/Running-the-Endgame). This source code is available to everyone under the standard [MIT license](https://github.com/microsoft/vscode/blob/main/LICENSE.txt).
+---
 
-## Visual Studio Code
+## 🎯 核心目标与特性 (Core Features)
 
-<p align="center">
-  <img alt="VS Code in action" src="https://github.com/user-attachments/assets/56af271c-949d-454c-a3ea-16188c063414">
-</p>
+- ⚡ **开箱即用编译链**：智能检测 TeX Live / MiKTeX / MacTeX / TinyTeX，预设 XeLaTeX, pdfLaTeX, LuaLaTeX, latexmk 编译流。
+- 📖 **原生内置 PDF 预览 & SyncTeX**：无缝分屏阅读，支持正向（代码 -> PDF）与反向（PDF -> 代码）精确定位跳转。
+- 📐 **可视化数学与符号面板**：希腊字母、数学算子、环境模版可视拾取，公式实时渲染悬停预览。
+- 📚 **学术大纲与 BibTeX 管理**：文档章节结构大纲树一键直达，参考文献引用智能联想。
+- 🎨 **学术模板中心**：内置 IEEE, ACM, 硕博/本科毕业论文, Beamer 幻灯片等一键起步模板。
+- 🤖 **AI 学术助手**：集成学术润色、降重、公式生成与 LaTeX 编译报错一键修复。
 
-[Visual Studio Code](https://code.visualstudio.com) is a distribution of the `Code - OSS` repository with Microsoft-specific customizations released under a traditional [Microsoft product license](https://code.visualstudio.com/License/).
+---
 
-[Visual Studio Code](https://code.visualstudio.com) combines the simplicity of a code editor with what developers need for their core edit-build-debug cycle. It provides comprehensive code editing, navigation, and understanding support along with lightweight debugging, a rich extensibility model, and lightweight integration with existing tools.
+## 🛠️ 仓库架构与分支规范 (GitFlow)
 
-Visual Studio Code is updated monthly with new features and bug fixes. You can download it for Windows, macOS, and Linux on the [Visual Studio Code website](https://code.visualstudio.com/Download). To get the latest releases every day, install the [Insiders build](https://code.visualstudio.com/insiders).
+本项目严格采用 **GitFlow** 工作流与微步提交规范：
+- `main`：生产/正式发布分支，保持代码高可用。
+- `develop`：主集成开发分支。
+- `feature/*`：功能特性分支，小步 PR 合入 `develop`。
+- `release/*` 与 `hotfix/*`：版本发布与紧急修复分支。
+
 
 ## Contributing
 
