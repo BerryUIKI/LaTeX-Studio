@@ -131,20 +131,22 @@ Traditional LaTeX workflows require complex manual toolchain configuration, cumb
 
 ---
 
-### Milestone 9: Collaborative & Cloud Synchronization (v0.9.0)
-*Status: Planned*
-- [ ] Direct Overleaf Git bridge integration (clone, pull, push with credential persistence).
-- [ ] Cloud compilation fallback: execute builds in a containerized TeX Live environment when local engines are absent.
-- [ ] Academic reviewer annotations and margin comment management.
+### Milestone 9: Progressive Lightweight Architecture & Native Rust Core (v0.9.0)
+*Status: In Progress (PR #15)*
+- [x] Scaffold `src-tauri` workspace and build high-performance Rust core library (`latex-studio-core`).
+- [x] Implement ultra-fast TeX engine & toolchain detector in Rust (`detector.rs`).
+- [x] Implement native microsecond-latency TeX build log & diagnostic parser (`parser.rs`).
+- [x] Implement high-throughput streaming BibTeX indexer in Rust (`bibtex.rs`).
+- [x] Implement low-overhead child process compilation runner in Rust (`compiler.rs`).
+- [ ] Connect lightweight Webview frontend with Rust native backend via Tauri IPC bridge.
 
 ---
 
 ### Milestone 10: Production Hardening, Distribution & Packaging (v1.0.0)
 *Status: Planned*
-- [ ] Cross-platform desktop builds via Electron packager:
-  - Windows: NSIS Installer & Portable ZIP (`LaTeXStudio-Setup-x64.exe`)
-  - macOS: Universal DMG & App Bundle (Apple Silicon & Intel)
-  - Linux: AppImage, DEB, and RPM packages
+- [ ] Cross-platform desktop builds via progressive packaging:
+  - Tauri lightweight bundle (< 30 MB installer, Windows WebView2 / macOS WebKit).
+  - Code OSS full workbench bundle for users requiring the complete classic extension ecosystem.
 - [ ] Optional bundled TinyTeX distribution installer for 100% zero-dependency offline installations.
 - [ ] Automated GitHub Actions CI/CD matrix for release builds, code signing, and checksum generation.
 - [ ] Official documentation portal and quick-start tutorials.
