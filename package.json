@@ -1,5 +1,6 @@
 {
-  "name": "code-oss-dev",
+  "name": "latex-studio-dev",
+  "description": "LaTeX Studio - Professional LaTeX IDE & Academic Workstation",
   "version": "1.141.0",
   "distro": "a620eb1a35f4f1994abbd67502c0b2c3b8e73ee0",
   "author": {
