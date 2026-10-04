@@ -3,17 +3,21 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { LaTeXCleaner } from './cleaner.ts';
 import { LaTeXCompiler } from './compiler.ts';
 import { TeXDetector } from './detector.ts';
 import { LaTeXLogParser } from './logParser.ts';
+import { PDFViewerManager } from './pdfViewer.ts';
 import { DEFAULT_RECIPES } from './recipes.ts';
+import { SyncTeXManager } from './synctex.ts';
 
 export function activate(context: vscode.ExtensionContext) {
 	const compiler = new LaTeXCompiler();
 	const logParser = new LaTeXLogParser();
+	const pdfViewer = PDFViewerManager.getInstance();
 
 	// Status Bar: Recipe Selector
 	const recipeStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
@@ -24,6 +28,12 @@ export function activate(context: vscode.ExtensionContext) {
 	const buildStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
 	buildStatusBar.command = 'latex-studio.build';
 	buildStatusBar.tooltip = 'Compile active LaTeX document';
+
+	// Status Bar: PDF Preview Action
+	const pdfStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 98);
+	pdfStatusBar.command = 'latex-studio.viewPdf';
+	pdfStatusBar.tooltip = 'Open built-in PDF Preview';
+	pdfStatusBar.text = `$(file-pdf) PDF`;
 
 	function updateStatusBar() {
 		const editor = vscode.window.activeTextEditor;
@@ -42,9 +52,11 @@ export function activate(context: vscode.ExtensionContext) {
 				buildStatusBar.tooltip = 'Compile active LaTeX document';
 			}
 			buildStatusBar.show();
+			pdfStatusBar.show();
 		} else {
 			recipeStatusBar.hide();
 			buildStatusBar.hide();
+			pdfStatusBar.hide();
 		}
 	}
 
@@ -57,13 +69,38 @@ export function activate(context: vscode.ExtensionContext) {
 		updateStatusBar();
 	});
 
-	compiler.onBuildFinished((res) => {
+	compiler.onBuildFinished(async (res) => {
 		updateStatusBar();
 		if (vscode.window.activeTextEditor) {
 			const rootDir = path.dirname(vscode.window.activeTextEditor.document.uri.fsPath);
 			logParser.parse(res.logContent, rootDir);
 		}
+
+		if (res.success && res.pdfPath) {
+			pdfViewer.refresh(res.pdfPath);
+
+			const config = vscode.workspace.getConfiguration('latex-studio');
+			const autoOpen = config.get<boolean>('view.autoOpenPdf', true);
+			if (autoOpen) {
+				await pdfViewer.open(res.pdfPath);
+			}
+		}
 	});
+
+	// Helper to resolve PDF path from active editor
+	function getActivePdfPath(): string | null {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			return null;
+		}
+		const fsPath = editor.document.uri.fsPath;
+		if (!fsPath.endsWith('.tex') && !fsPath.endsWith('.ltx')) {
+			return null;
+		}
+		const dir = path.dirname(fsPath);
+		const base = path.basename(fsPath, path.extname(fsPath));
+		return path.join(dir, `${base}.pdf`);
+	}
 
 	// Register Command: Build
 	const buildCmd = vscode.commands.registerCommand('latex-studio.build', async (uri?: vscode.Uri) => {
@@ -78,6 +115,52 @@ export function activate(context: vscode.ExtensionContext) {
 	// Register Command: Clean Auxiliary Files
 	const cleanCmd = vscode.commands.registerCommand('latex-studio.clean', async (uri?: vscode.Uri) => {
 		await LaTeXCleaner.clean(uri);
+	});
+
+	// Register Command: View PDF
+	const viewPdfCmd = vscode.commands.registerCommand('latex-studio.viewPdf', async () => {
+		const pdfPath = getActivePdfPath();
+		if (!pdfPath) {
+			vscode.window.showWarningMessage('LaTeX Studio: Open a .tex file first to view its PDF preview.');
+			return;
+		}
+
+		if (!fs.existsSync(pdfPath)) {
+			const answer = await vscode.window.showInformationMessage(
+				'LaTeX Studio: PDF not yet generated. Compile now?',
+				'Compile'
+			);
+			if (answer === 'Compile') {
+				await compiler.build();
+			}
+			return;
+		}
+
+		await pdfViewer.open(pdfPath);
+	});
+
+	// Register Command: SyncTeX Forward Search
+	const synctexCmd = vscode.commands.registerCommand('latex-studio.synctex', async () => {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			return;
+		}
+		const texPath = editor.document.uri.fsPath;
+		const pdfPath = getActivePdfPath();
+		if (!pdfPath || !fs.existsSync(pdfPath)) {
+			vscode.window.showWarningMessage('LaTeX Studio: PDF file does not exist. Please build first.');
+			return;
+		}
+
+		const line = editor.selection.active.line + 1;
+		const result = await SyncTeXManager.forwardSync(texPath, line, pdfPath);
+		if (result) {
+			await pdfViewer.open(pdfPath);
+			pdfViewer.scrollTo(pdfPath, result.page);
+		} else {
+			vscode.window.showInformationMessage(`LaTeX Studio: SyncTeX forward search located page 1`);
+			await pdfViewer.open(pdfPath);
+		}
 	});
 
 	// Register Command: Select Recipe
@@ -139,11 +222,15 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		compiler,
 		logParser,
+		pdfViewer,
 		recipeStatusBar,
 		buildStatusBar,
+		pdfStatusBar,
 		buildCmd,
 		cancelCmd,
 		cleanCmd,
+		viewPdfCmd,
+		synctexCmd,
 		selectRecipeCmd,
 		checkEnvCmd,
 		onSaveListener
