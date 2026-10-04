@@ -11,6 +11,11 @@
   "scripts": {
     "update-grammar": "node ./build/update-grammars.js"
   },
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:latex",
+    "onLanguage:tex"
+  ],
   "categories": ["Programming Languages"],
   "contributes": {
     "languages": [
