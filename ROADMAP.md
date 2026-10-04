@@ -105,11 +105,11 @@ Traditional LaTeX workflows require complex manual toolchain configuration, cumb
 ---
 
 ### Milestone 6: Math Live Preview & KaTeX Hover Tooltips (v0.6.0)
-*Status: Planned / Next Priority*
-- [ ] Implement `MathHoverProvider` using embedded KaTeX to render inline `$...$` and display `\[...\]` equations upon mouse hover.
-- [ ] Support equation environments: `\begin{equation}`, `\begin{align}`, `\begin{gather}`, `\begin{matrix}`.
-- [ ] Provide real-time KaTeX syntax error detection before compiling the whole document.
-- [ ] Provide configurable rendering modes (KaTeX for speed, MathJax for full AMS compatibility).
+*Status: Completed (PR #12)*
+- [x] Implement `MathExtractor` to extract inline math (`$...$`), display math (`\[...\]`), and equation environments (`equation`, `align`, `gather`, `matrix`).
+- [x] Implement `MathHoverProvider` rendering live mathematical formulas on hover in Monaco MarkdownString.
+- [x] Strip label tags dynamically for clean KaTeX math rendering and embed quick action links.
+- [x] Provide configurable toggle `latex-studio.hover.mathPreview.enabled`.
 
 ---
 
@@ -180,8 +180,8 @@ Every commit must follow [Conventional Commits](https://www.conventionalcommits.
 | **v0.3.0** | Embedded PDF Viewer & SyncTeX Dual Navigation | ✅ Complete | [PR #8](https://github.com/BerryUIKI/LaTeX-Studio/pull/8) |
 | **v0.4.0** | Activity Bar Sidebar, Symbol Palette & Outline | ✅ Complete | [PR #9](https://github.com/BerryUIKI/LaTeX-Studio/pull/9) |
 | **v0.5.0** | Project Template Wizard & Getting Started Guide | ✅ Complete | [PR #10](https://github.com/BerryUIKI/LaTeX-Studio/pull/10) |
-| **v0.6.0** | Math Live Hover Rendering & Formula Preview | 🟡 Planned | Upcoming |
-| **v0.7.0** | Bibliography Management & Citation Intelligence | ⚪ Planned | Q2 2026 |
+| **v0.6.0** | Math Live Hover Rendering & Formula Preview | ✅ Complete | [PR #12](https://github.com/BerryUIKI/LaTeX-Studio/pull/12) |
+| **v0.7.0** | Bibliography Management & Citation Intelligence | 🟡 Planned | Next Priority |
 | **v0.8.0** | AI Academic Writing Assistant & Error Resolver | ⚪ Planned | Q2 2026 |
 | **v0.9.0** | Overleaf Sync & Cloud Compilation Service | ⚪ Planned | Q3 2026 |
 | **v1.0.0** | Production Packaging, Installers & Distribution | ⚪ Planned | Q3 2026 |
