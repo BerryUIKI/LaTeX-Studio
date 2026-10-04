@@ -123,11 +123,11 @@ Traditional LaTeX workflows require complex manual toolchain configuration, cumb
 ---
 
 ### Milestone 8: AI Scientific Writing & Error Resolution Assistant (v0.8.0)
-*Status: Planned*
-- [ ] Integrated academic polishing assistant: refine tone, enhance vocabulary, and check grammar.
-- [ ] Natural language LaTeX equation generator (e.g., "Euler's identity" -> `$e^{i\pi} + 1 = 0$`).
-- [ ] Intelligent LaTeX error analyzer: explain obscure TeX errors (e.g., `Missing $ inserted`, `Underfull \hbox`) in plain language with one-click fixes.
-- [ ] Markdown / CSV to LaTeX booktabs table generator.
+*Status: Completed (PR #14)*
+- [x] Integrated academic polishing assistant: refine tone, enhance vocabulary, and check grammar (`AcademicAssistant` with formalization, impersonalization, conciseness, and math punctuation normalization).
+- [x] Natural language LaTeX equation generator: search catalog of mathematical equations and insert templates (`MathEquationAssistant`).
+- [x] Intelligent LaTeX error analyzer: explain obscure TeX errors (`Missing $ inserted`, `Undefined control sequence`, `Underfull/Overfull \hbox`, etc.) in plain language with one-click QuickFixes (`ErrorExplainer` & `LaTeXCodeActionProvider`).
+- [x] Markdown / CSV / TSV to LaTeX `booktabs` publication table generator (`TableGenerator`).
 
 ---
 

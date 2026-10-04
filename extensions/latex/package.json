@@ -195,6 +195,25 @@
         "command": "latex-studio.newProject",
         "title": "LaTeX Studio: New Project from Template",
         "icon": "$(repo-create)"
+      },
+      {
+        "command": "latex-studio.academicPolish",
+        "title": "LaTeX Studio: Academic Polish & Tone Assistant",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "latex-studio.insertMathEquation",
+        "title": "LaTeX Studio: Search & Insert Math Equation",
+        "icon": "$(symbol-operator)"
+      },
+      {
+        "command": "latex-studio.generateTable",
+        "title": "LaTeX Studio: Generate Table (Markdown/CSV to Booktabs)",
+        "icon": "$(table)"
+      },
+      {
+        "command": "latex-studio.showErrorExplanation",
+        "title": "LaTeX Studio: Show Error Explanation"
       }
     ],
     "menus": {
@@ -213,6 +232,23 @@
           "command": "latex-studio.clean",
           "when": "resourceExtname == .tex || resourceExtname == .ltx",
           "group": "navigation@3"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "latex-studio.academicPolish",
+          "when": "editorLangId == latex || editorLangId == tex",
+          "group": "1_latex_assistant@1"
+        },
+        {
+          "command": "latex-studio.insertMathEquation",
+          "when": "editorLangId == latex || editorLangId == tex",
+          "group": "1_latex_assistant@2"
+        },
+        {
+          "command": "latex-studio.generateTable",
+          "when": "editorLangId == latex || editorLangId == tex",
+          "group": "1_latex_assistant@3"
         }
       ]
     },
@@ -238,6 +274,12 @@
       {
         "command": "latex-studio.clean",
         "key": "ctrl+alt+c",
+        "when": "editorLangId == latex || editorLangId == tex"
+      },
+      {
+        "command": "latex-studio.academicPolish",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p",
         "when": "editorLangId == latex || editorLangId == tex"
       }
     ],
@@ -277,6 +319,11 @@
           "type": "boolean",
           "default": true,
           "description": "Enable rich bibliographic reference card previews when hovering over citation keys."
+        },
+        "latex-studio.assistant.booktabsDefault": {
+          "type": "boolean",
+          "default": true,
+          "description": "Default to professional academic booktabs rules (toprule, midrule, bottomrule) in generated tables."
         }
       }
     },
@@ -293,15 +340,15 @@
       "latex-studio-sidebar": [
         {
           "id": "latex-studio.actions",
-          "name": "Quick Actions (快捷操作)"
+          "name": "Quick Actions"
         },
         {
           "id": "latex-studio.outline",
-          "name": "Document Outline (文档大纲)"
+          "name": "Document Outline"
         },
         {
           "id": "latex-studio.symbols",
-          "name": "Math Symbols Palette (数学符号拾取器)"
+          "name": "Math Symbols Palette"
         }
       ]
     },

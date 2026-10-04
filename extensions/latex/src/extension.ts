@@ -6,6 +6,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
+import { AcademicAssistant } from './academicAssistant.ts';
 import { ActionsProvider } from './actionsProvider.ts';
 import { BibIndexer } from './bibIndexer.ts';
 import { CitationCompletionProvider } from './citationCompletion.ts';
@@ -13,13 +14,16 @@ import { CitationHoverProvider } from './citationHover.ts';
 import { LaTeXCleaner } from './cleaner.ts';
 import { LaTeXCompiler } from './compiler.ts';
 import { TeXDetector } from './detector.ts';
+import { ErrorExplainer, LaTeXCodeActionProvider, TeXErrorExplanation } from './errorExplainer.ts';
 import { LaTeXLogParser } from './logParser.ts';
+import { MathEquationAssistant } from './mathAssistant.ts';
 import { MathHoverProvider } from './mathHover.ts';
 import { OutlineProvider } from './outlineProvider.ts';
 import { PDFViewerManager } from './pdfViewer.ts';
 import { DEFAULT_RECIPES } from './recipes.ts';
 import { SymbolsProvider } from './symbolsProvider.ts';
 import { SyncTeXManager } from './synctex.ts';
+import { TableGenerator } from './tableGenerator.ts';
 import { TemplateWizard } from './templates.ts';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -292,6 +296,143 @@ export function activate(context: vscode.ExtensionContext) {
 		new CitationHoverProvider()
 	);
 
+	// Register Diagnostic Code Actions (Error Explainer & Quick Fixes)
+	const codeActionProvider = vscode.languages.registerCodeActionsProvider(
+		[{ language: 'latex' }, { language: 'tex' }],
+		new LaTeXCodeActionProvider(),
+		{ providedCodeActionKinds: LaTeXCodeActionProvider.providedCodeActionKinds }
+	);
+
+	// Register Command: Show Error Explanation Dialog
+	const showErrorExplanationCmd = vscode.commands.registerCommand(
+		'latex-studio.showErrorExplanation',
+		(message: string, explanation: TeXErrorExplanation) => {
+			vscode.window.showInformationMessage(
+				`LaTeX Studio Explainer: ${explanation.title}\n\nCause: ${explanation.cause}\n\nSuggestion: ${explanation.suggestion}`,
+				{ modal: true }
+			);
+		}
+	);
+
+	// Register Command: Academic Polish & Tone Assistant
+	const academicPolishCmd = vscode.commands.registerCommand('latex-studio.academicPolish', async () => {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showWarningMessage('LaTeX Studio: Open a LaTeX document to polish text.');
+			return;
+		}
+
+		const selection = editor.selection;
+		const text = selection.isEmpty ? editor.document.getText() : editor.document.getText(selection);
+		if (!text.trim()) {
+			vscode.window.showWarningMessage('LaTeX Studio: Select or write academic text to polish.');
+			return;
+		}
+
+		const options = AcademicAssistant.getRewriteOptions();
+		const items = options.map((opt) => ({
+			label: opt.title,
+			description: opt.description,
+			id: opt.id,
+			transform: opt.transform
+		}));
+
+		const selected = await vscode.window.showQuickPick(items, {
+			placeHolder: 'Select academic refinement rule'
+		});
+
+		if (selected) {
+			const transformed = selected.transform(text);
+			if (transformed === text) {
+				vscode.window.showInformationMessage('LaTeX Studio: Text already conforms to the selected academic standard.');
+			} else {
+				editor.edit((editBuilder) => {
+					if (selection.isEmpty) {
+						const fullRange = new vscode.Range(
+							editor.document.positionAt(0),
+							editor.document.positionAt(text.length)
+						);
+						editBuilder.replace(fullRange, transformed);
+					} else {
+						editBuilder.replace(selection, transformed);
+					}
+				});
+				vscode.window.showInformationMessage(`LaTeX Studio: Applied ${selected.label}`);
+			}
+		}
+	});
+
+	// Register Command: Natural Language Math Equation Assistant
+	const insertMathEquationCmd = vscode.commands.registerCommand('latex-studio.insertMathEquation', async () => {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showWarningMessage('LaTeX Studio: Open a document to insert equations.');
+			return;
+		}
+
+		const templates = MathEquationAssistant.search('');
+		const items = templates.map((t) => ({
+			label: t.latex,
+			description: t.description,
+			detail: t.keywords.join(', '),
+			latex: t.latex
+		}));
+
+		const selected = await vscode.window.showQuickPick(items, {
+			placeHolder: 'Search equation by name or keyword (e.g. euler, gaussian, attention, loss, bayes)...',
+			matchOnDescription: true,
+			matchOnDetail: true
+		});
+
+		if (selected) {
+			const equationSnippet = `\\[\n\t${selected.latex}\n\\]`;
+			editor.insertSnippet(new vscode.SnippetString(equationSnippet));
+		}
+	});
+
+	// Register Command: Generate Booktabs Table
+	const generateTableCmd = vscode.commands.registerCommand('latex-studio.generateTable', async () => {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showWarningMessage('LaTeX Studio: Open a document to insert tables.');
+			return;
+		}
+
+		const input = await vscode.window.showInputBox({
+			prompt: 'Paste Markdown table or CSV data (or leave empty for a 3x3 sample table):',
+			placeHolder: 'Col1 | Col2 | Col3 \\n Val1 | Val2 | Val3'
+		});
+
+		if (input === undefined) {
+			return;
+		}
+
+		const rawContent = input.trim().length > 0 ? input : 'Item | Precision | Recall\nBaseline | 0.84 | 0.81\nProposed | 0.95 | 0.92';
+		const parsed = TableGenerator.parseRawInput(rawContent);
+		if (parsed.length === 0) {
+			vscode.window.showWarningMessage('LaTeX Studio: Failed to parse table data.');
+			return;
+		}
+
+		const caption = await vscode.window.showInputBox({
+			prompt: 'Enter table caption:',
+			value: 'Performance comparison of experimental models.'
+		}) || 'Performance comparison';
+
+		const label = await vscode.window.showInputBox({
+			prompt: 'Enter table label:',
+			value: 'tab:performance_comparison'
+		}) || 'tab:table';
+
+		const latexTable = TableGenerator.generateLaTeX(parsed, {
+			caption,
+			label,
+			useBooktabs: true
+		});
+
+		editor.insertSnippet(new vscode.SnippetString(`${latexTable}\n`));
+	});
+
 	context.subscriptions.push(
 		compiler,
 		logParser,
@@ -311,7 +452,12 @@ export function activate(context: vscode.ExtensionContext) {
 		newProjectCmd,
 		hoverProvider,
 		citationCompletion,
-		citationHover
+		citationHover,
+		codeActionProvider,
+		showErrorExplanationCmd,
+		academicPolishCmd,
+		insertMathEquationCmd,
+		generateTableCmd
 	);
 
 	updateStatusBar();
