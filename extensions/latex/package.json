@@ -111,10 +111,40 @@
         "scopeName": "source.cpp.embedded.latex",
         "path": "./syntaxes/cpp-grammar-bailout.tmLanguage.json"
       }
-    ]
+    ],
+    "snippets": [
+      {
+        "language": "latex",
+        "path": "./snippets/latex.json"
+      },
+      {
+        "language": "tex",
+        "path": "./snippets/latex.json"
+      }
+    ],
+    "configurationDefaults": {
+      "[latex]": {
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": {
+          "other": "inline",
+          "comments": "off",
+          "strings": "off"
+        },
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.bracketPairColorization.enabled": true,
+        "editor.guides.bracketPairs": "active"
+      },
+      "[tex]": {
+        "editor.wordWrap": "on",
+        "editor.bracketPairColorization.enabled": true
+      },
+      "[bibtex]": {
+        "editor.wordWrap": "off"
+      }
+    }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/vscode.git"
+    "url": "https://github.com/BerryUIKI/LaTeX-Studio.git"
   }
 }
