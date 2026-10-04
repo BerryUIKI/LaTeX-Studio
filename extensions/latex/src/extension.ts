@@ -11,6 +11,7 @@ import { LaTeXCleaner } from './cleaner.ts';
 import { LaTeXCompiler } from './compiler.ts';
 import { TeXDetector } from './detector.ts';
 import { LaTeXLogParser } from './logParser.ts';
+import { MathHoverProvider } from './mathHover.ts';
 import { OutlineProvider } from './outlineProvider.ts';
 import { PDFViewerManager } from './pdfViewer.ts';
 import { DEFAULT_RECIPES } from './recipes.ts';
@@ -263,6 +264,12 @@ export function activate(context: vscode.ExtensionContext) {
 		await TemplateWizard.createProject();
 	});
 
+	// Register Hover Provider: Math Live Preview
+	const hoverProvider = vscode.languages.registerHoverProvider(
+		[{ language: 'latex' }, { language: 'tex' }],
+		new MathHoverProvider()
+	);
+
 	context.subscriptions.push(
 		compiler,
 		logParser,
@@ -279,7 +286,8 @@ export function activate(context: vscode.ExtensionContext) {
 		checkEnvCmd,
 		insertSnippetCmd,
 		jumpToLineCmd,
-		newProjectCmd
+		newProjectCmd,
+		hoverProvider
 	);
 
 	updateStatusBar();
