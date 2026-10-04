@@ -262,6 +262,11 @@
           "type": "string",
           "default": "xelatex",
           "description": "Default LaTeX compiler recipe (e.g. xelatex, pdflatex, latexmk)."
+        },
+        "latex-studio.hover.mathPreview.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable live KaTeX formula preview tooltip when hovering over mathematical expressions."
         }
       }
     },
