@@ -15,43 +15,61 @@ interface ActionItem {
 const ACTION_ITEMS: ActionItem[] = [
 	{
 		label: 'New Project from Template',
-		description: '从学术模板新建项目 (IEEE / 毕业论文 / Beamer)',
+		description: 'Scaffold academic projects (IEEE / Thesis / Beamer)',
 		icon: 'repo-create',
 		command: 'latex-studio.newProject'
 	},
 	{
+		label: 'Academic Polish & Tone Assistant',
+		description: 'Refine academic tone, passive stance, and concise style',
+		icon: 'sparkle',
+		command: 'latex-studio.academicPolish'
+	},
+	{
+		label: 'Math Equation Assistant',
+		description: 'Natural language search for LaTeX mathematical equations',
+		icon: 'symbol-operator',
+		command: 'latex-studio.insertMathEquation'
+	},
+	{
+		label: 'Table Generator (Markdown / CSV)',
+		description: 'Convert tables or CSV into publication-ready booktabs tables',
+		icon: 'table',
+		command: 'latex-studio.generateTable'
+	},
+	{
 		label: 'Build Document',
-		description: '一键编译当前文档 (Ctrl+B)',
+		description: 'Compile active document (Ctrl+B)',
 		icon: 'play',
 		command: 'latex-studio.build'
 	},
 	{
 		label: 'View PDF Preview',
-		description: '内置侧边栏预览 (Ctrl+Alt+V)',
+		description: 'Embedded side-by-side preview (Ctrl+Alt+V)',
 		icon: 'file-pdf',
 		command: 'latex-studio.viewPdf'
 	},
 	{
 		label: 'SyncTeX Forward Search',
-		description: '从代码跳转到 PDF 对应位置 (Ctrl+Alt+J)',
+		description: 'Jump from source code to PDF position (Ctrl+Alt+J)',
 		icon: 'arrow-right',
 		command: 'latex-studio.synctex'
 	},
 	{
 		label: 'Select Recipe',
-		description: '切换编译引擎 (XeLaTeX / pdfLaTeX / latexmk)',
+		description: 'Switch compiler engine (XeLaTeX / pdfLaTeX / latexmk)',
 		icon: 'gear',
 		command: 'latex-studio.selectRecipe'
 	},
 	{
 		label: 'Clean Auxiliary Files',
-		description: '清理 .aux / .log / .synctex.gz 等缓存文件',
+		description: 'Remove .aux / .log / .synctex.gz build artifacts',
 		icon: 'trash',
 		command: 'latex-studio.clean'
 	},
 	{
 		label: 'Check TeX Environment',
-		description: '检查系统 TeX Live / MiKTeX 安装状态',
+		description: 'Detect installed TeX Live, MiKTeX, and MacTeX toolchains',
 		icon: 'check',
 		command: 'latex-studio.checkEnvironment'
 	}
