@@ -57,3 +57,6 @@ dist
 
 # Copilot simulation cache
 extensions/copilot/test/simulation/cache/
+
+# Rust / Tauri build artifacts
+src-tauri/target/

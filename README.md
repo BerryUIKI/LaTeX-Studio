@@ -1,88 +1,101 @@
 # LaTeX Studio
 
-> **LaTeX Studio** is an open-source, high-performance desktop IDE and academic writing workstation designed for researchers, scientists, students, and engineers. It delivers an out-of-the-box, frictionless environment for LaTeX authoring, compiling, and PDF synchronization.
+> **LaTeX Studio** is an open-source, high-performance desktop IDE and scientific writing workstation designed for researchers, scientists, students, and engineers. It delivers an out-of-the-box, frictionless environment for LaTeX authoring, real-time compilation, and PDF synchronization with a progressive lightweight architecture.
 
 ---
 
-## 🎯 Key Features
+## 🎯 Key Capabilities & Highlights
 
 - ⚡ **Zero-Configuration Toolchain**: Auto-detects TeX Live, MiKTeX, MacTeX, and TinyTeX. Pre-configures XeLaTeX, pdfLaTeX, LuaLaTeX, and latexmk build recipes.
+- 🦀 **Progressive Lightweight Architecture**: Powered by a high-throughput native Rust core (`latex-studio-core`), providing microsecond log parsing, fast toolchain detection, and streaming BibTeX indexing.
 - 📖 **Embedded PDF Viewer & SyncTeX**: Side-by-side preview with sub-second bi-directional synchronization (source code $\leftrightarrow$ PDF).
-- 📐 **Visual Math Symbol Palette**: One-click insertion for Greek alphabets, mathematical operators, relations, arrows, and calculus notation.
-- 📚 **Real-Time Document Outline**: Dynamic structure tree tracking `\part` through `\paragraph` with instant navigation.
-- 🎨 **Academic Template Center**: Instant project scaffolding for IEEE, ACM, graduation theses, and Beamer presentations.
-- 🛠️ **Smart Error Diagnostics**: Parses raw TeX logs and surfaces errors and BadBox warnings directly in the Problems panel.
+- 🧠 **AI Scientific Writing & Tone Assistant**: Refine academic tone, convert prose to an objective impersonal stance, eliminate wordy redundancies, and normalize LaTeX math punctuation (`Ctrl+Alt+P`).
+- 💡 **Intelligent TeX Error Explainer**: Plain-English error diagnostics for obscure TeX log errors (`Missing $ inserted`, `Underfull/Overfull \hbox`, `Undefined control sequence`) with one-click QuickFixes.
+- 📐 **Math Live Preview & KaTeX Hover**: Live formula rendering in hover tooltips and natural language search for mathematical and machine learning equations.
+- 📚 **Citation & Bibliography Intelligence**: Automatic `.bib` database indexing, fuzzy citation completion (`\cite{...}`), and rich hover reference cards.
+- 📊 **Academic Table Generator**: Instant conversion of raw Markdown tables or CSV/TSV spreadsheets into publication-grade `booktabs` tables (`\toprule`, `\midrule`, `\bottomrule`).
+- 🎨 **Academic Template Center**: Project scaffolding for IEEE, ACM, graduation theses (`ctex`), and Beamer presentations.
+- 🌳 **Real-Time Document Outline**: Dynamic structure tree tracking `\part` through `\subparagraph` with instant navigation.
+
+---
+
+## 🏗️ Architecture Overview
+
+LaTeX Studio utilizes a two-tier progressive architecture:
+
+```mermaid
+graph TD
+    UI["Frontend Workbench (Monaco Editor + Academic UI)"]
+    API["VS Code / Webview Extension API Layer"]
+    Core["Native Rust Core Engine (latex-studio-core)"]
+    TeX["System TeX Distributions (TeX Live / MiKTeX / TinyTeX)"]
+
+    UI --> API
+    API --> Core
+    Core --> TeX
+```
+
+1. **Frontend / Workbench**: High-productivity editing powered by Monaco Editor, customizable layout, status bar quick actions, and embedded PDF preview.
+2. **Native Rust Core Engine (`src-tauri/`)**: High-performance, zero-overhead systems layer handling:
+   - Toolchain & engine auto-discovery (`src/detector.rs`).
+   - Microsecond build log & BadBox parsing (`src/parser.rs`).
+   - High-throughput streaming BibTeX reference indexing (`src/bibtex.rs`).
+   - Native compilation execution pipeline (`src/compiler.rs`).
 
 ---
 
 ## 🗺️ Project Milestones & Roadmap
 
-For our comprehensive engineering roadmap, release plans, and milestone progress, see [ROADMAP.md](ROADMAP.md).
+For our comprehensive engineering roadmap, release plans, and completed milestone progress, see [ROADMAP.md](ROADMAP.md).
 
 ---
 
 ## 🛠️ Branching Strategy (GitFlow)
 
-This repository follows standard **GitFlow** and **Semantic Versioning**:
+This repository follows standard **GitFlow** and **Semantic Versioning (SemVer)**:
 - **`main`**: Production and stable release branch.
 - **`develop`**: Primary integration branch for active development.
 - **`feature/*`**: Dedicated feature branches merged into `develop` via Pull Requests.
 - **`release/*`** & **`hotfix/*`**: Release stabilization and emergency patch branches.
 
+---
 
-## Contributing
+## 🚀 Getting Started
 
-There are many ways in which you can participate in this project, for example:
+### Prerequisites
+- Node.js (v20 or newer)
+- Rust toolchain (1.75+ or newer, via `rustup`)
+- A TeX distribution on your system:
+  - Windows: [TeX Live](https://www.tug.org/texlive/) or [MiKTeX](https://miktex.org/)
+  - macOS: [MacTeX](https://www.tug.org/mactex/)
+  - Linux: `texlive-full`
 
-* [Submit bugs and feature requests](https://github.com/microsoft/vscode/issues), and help us verify them as they are checked in
-* Review [source code changes](https://github.com/microsoft/vscode/pulls)
-* Review the [documentation](https://github.com/microsoft/vscode-docs) and make pull requests for anything from typos to new content.
+### Build from Source
+```bash
+# Clone the repository
+git clone https://github.com/BerryUIKI/LaTeX-Studio.git
+cd LaTeX-Studio
 
-If you are interested in fixing issues and contributing directly to the codebase, please see the document [How to Contribute](https://github.com/microsoft/vscode/wiki/How-to-Contribute), which covers the following:
+# Install JavaScript dependencies
+npm install
 
-* [How to build and run from source](https://github.com/microsoft/vscode/wiki/How-to-Contribute)
-* [The development workflow, including debugging and running tests](https://github.com/microsoft/vscode/wiki/How-to-Contribute#debugging)
-* [Coding guidelines](https://github.com/microsoft/vscode/wiki/Coding-Guidelines)
-* [Submitting pull requests](https://github.com/microsoft/vscode/wiki/How-to-Contribute#pull-requests)
-* [Finding an issue to work on](https://github.com/microsoft/vscode/wiki/How-to-Contribute#where-to-contribute)
-* [Contributing to translations](https://aka.ms/vscodeloc)
+# Test and verify native Rust core
+cd src-tauri
+cargo test
+cd ..
 
-## Feedback
+# Compile the LaTeX Studio built-in extension
+npm run gulp compile-extension:latex
+```
 
-* Ask a question on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode)
-* [Request a new feature](CONTRIBUTING.md)
-* Upvote [popular feature requests](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-* [File an issue](https://github.com/microsoft/vscode/issues)
-* Connect with the extension author community on [GitHub Discussions](https://github.com/microsoft/vscode-discussions/discussions) or [Slack](https://aka.ms/vscode-dev-community)
-* Follow [@code](https://x.com/code) and let us know what you think!
+---
 
-See our [wiki](https://github.com/microsoft/vscode/wiki/Feedback-Channels) for a description of each of these channels and information on some other available community-driven channels.
+## 🤝 Contributing
 
-## Related Projects
+Contributions are welcome! Please check [CONTRIBUTING.md](CONTRIBUTING.md) for development workflows, coding standards, and pull request guidelines.
 
-Many of the core components and extensions to VS Code live in their own repositories on GitHub. For example, the [node debug adapter](https://github.com/microsoft/vscode-node-debug) and the [mono debug adapter](https://github.com/microsoft/vscode-mono-debug) repositories are separate from each other. For a complete list, please visit the [Related Projects](https://github.com/microsoft/vscode/wiki/Related-Projects) page on our [wiki](https://github.com/microsoft/vscode/wiki).
+---
 
-## Bundled Extensions
-
-VS Code includes a set of built-in extensions located in the [extensions](extensions) folder, including grammars and snippets for many languages. Extensions that provide rich language support (inline suggestions, Go to Definition) for a language have the suffix `language-features`. For example, the `json` extension provides coloring for `JSON` and the `json-language-features` extension provides rich language support for `JSON`.
-
-## Development Container
-
-This repository includes a Visual Studio Code Dev Containers / GitHub Codespaces development container.
-
-* For [Dev Containers](https://aka.ms/vscode-remote/download/containers), use the **Dev Containers: Clone Repository in Container Volume...** command, which creates a Docker volume for better disk I/O on macOS and Windows.
-  * If you already have VS Code and Docker installed, you can also click [here](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode) to get started. This will cause VS Code to automatically install the Dev Containers extension if needed, clone the source code into a container volume, and spin up a dev container for use.
-
-* For Codespaces, install the [GitHub Codespaces](https://marketplace.visualstudio.com/items?itemName=GitHub.codespaces) extension in VS Code, and use the **Codespaces: Create New Codespace** command.
-
-Docker / the Codespace should have at least **4 cores and 6 GB of RAM (8 GB recommended)** to run a full build. See the [development container README](.devcontainer/README.md) for more information.
-
-## Code of Conduct
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## License
-
-Copyright (c) Microsoft Corporation. All rights reserved.
+## 📄 License
 
 Licensed under the [MIT](LICENSE.txt) license.
