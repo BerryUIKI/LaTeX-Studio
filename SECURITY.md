@@ -1,14 +1,26 @@
-<!-- BEGIN MICROSOFT SECURITY.MD V1.0.0 BLOCK -->
+# LaTeX Studio Security Policy
 
-## Security
+## Reporting Security Vulnerabilities
 
-Microsoft takes the security of our software products and services seriously, which
-includes all source code repositories in our GitHub organizations.
+We take the security of **LaTeX Studio** and its users seriously.
 
-**Please do not report security vulnerabilities through public GitHub issues.**
+If you discover a security vulnerability in LaTeX Studio, please **do NOT report it via public GitHub issues or discussions**.
 
-For security reporting information, locations, contact information, and policies,
-please review the latest guidance for Microsoft repositories at
-[https://aka.ms/SECURITY.md](https://aka.ms/SECURITY.md).
+Instead, please report the vulnerability privately by emailing the maintainer team or creating a private vulnerability report via GitHub Security Advisories:
 
-<!-- END MICROSOFT SECURITY.MD BLOCK -->
+1. Navigate to the [LaTeX Studio Security Advisories](https://github.com/BerryUIKI/LaTeX-Studio/security/advisories) page.
+2. Click **"Report a vulnerability"**.
+3. Provide a detailed description of the vulnerability, reproduction steps, potential impact, and suggested mitigations.
+
+### Supported Versions
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 0.9.x   | :white_check_mark: |
+| 0.8.x   | :white_check_mark: |
+| < 0.8   | :x:                |
+
+### Response Timeline
+- **Initial acknowledgment**: Within 48 hours.
+- **Triage & reproduction**: Within 5 business days.
+- **Security fix release**: Delivered via an expedited `hotfix/*` branch and SemVer patch release.
